@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cool.biz.base.mapper.MouldFourAttributeMapper">
+
+
+    <select id="findList" parameterType="String" resultType="MouldFourAttribute">
+        with recursive tmp as(
+            SELECT * FROM mould_four_attribute
+            where menu_two_id=#{id}
+            union
+            SELECT t1.* FROM mould_four_attribute t1,tmp tm  where 1=1 and t1.attribute_parent_id=tm.attribute_id
+        )
+        SELECT * FROM tmp;
+    </select>
+
+
+</mapper>

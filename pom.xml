@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>model_cool</artifactId>
+    <groupId>com.cool</groupId>
+    <packaging>pom</packaging>
+    <version>1.1.0</version>
+
+<!--聚合子工程-->
+<modules>
+    <module>model_cool_core</module>
+    <module>model_cool_auth</module>
+    <module>model_cool_main</module>
+    <module>model_cool_biz</module>
+</modules>
+
+<properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <java.version>8</java.version>
+
+    <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
+    <security.oauth2.version>2.3.5.RELEASE</security.oauth2.version>
+    <mybatis-plus.version>3.3.1</mybatis-plus.version>
+    <hutool.version>5.2.0</hutool.version>
+    <druid.version>1.1.21</druid.version>
+
+    <oshi.version>3.9.1</oshi.version>
+    <poi.version>4.1.0</poi.version>
+    <ip2region.version>1.7.2</ip2region.version>
+    <swagger.version>2.9.2</swagger.version>
+</properties>
+
+
+
+<dependencyManagement>
+    <dependencies>
+
+        <!--导入当前springboot不会冲突依赖版本号-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring-boot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <!--导入认证授权框架-->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${security.oauth2.version}</version>
+        </dependency>
+        <!--导入构建Web项目包含(Restful一些框架,SpringMvc,Tomcat嵌入式容器)-->
+        <!--排掉Tomcat用更高级的undertow容器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+</dependencyManagement>
+
+<!--指定默认仓库地址-->
+<repositories>
+    <!--阿里云-->
+    <repository>
+        <id>aliyun</id>
+        <name>aliyun</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+    </repository>
+</repositories>
+
+<build>
+    <plugins>
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.0</version>
+            <configuration>
+                <target>${maven.compiler.target}</target>
+                <source>${maven.compiler.source}</source>
+                <encoding>UTF-8</encoding>
+                <skip>true</skip>
+            </configuration>
+        </plugin>
+    </plugins>
+    <resources>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+            </includes>
+            <filtering>true</filtering>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>*.properties</include>
+                <include>*.yml</include>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+                <include>**/*.tld</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>false</filtering>
+            <includes>
+                <include>static/**</include>
+                <include>templates/**</include>
+                <include>config/**</include>
+                <include>ip2region/**</include>
+                <include>processes/**</include>
+
+                <include>**/*.woff</include>
+                <include>**/*.woff2</include>
+                <include>**/*.ttf</include>
+                <include>**/*.eot</include>
+                <include>**/*.otf</include>
+                <include>**/*.svg</include>
+
+                <include>**/*.exe</include>
+            </includes>
+        </resource>
+    </resources>
+</build>
+
+
+
+</project>

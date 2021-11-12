@@ -1,0 +1,144 @@
+# 项目配置
+cool:
+  # 名称
+  name: 模酷酷接口平台
+  # 版本
+  version: 1.1.0
+  # 文件上传路径(windows-默认当前项目根路径)
+  win-profile: D:/coolProfile/
+  # 文件上传路径(linux-默认当前项目根路径)
+  linux-profile: /usr/coolProfile/
+  # 是否启动蜘蛛爬虫
+  spider: false
+  #国际化配置
+  lang: zh_CN
+  #Redis开关
+  redisSwitch: true
+
+# 开发环境配置
+server:
+  port: 9300
+  undertow:
+    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    io-threads: 4
+    # 阻塞任务线程池, 当执行类似servlet请求阻塞IO操作, undertow会从这个线程池中取得线程
+    worker-threads: 20
+    # buffer大小,这些buffer会用于服务器连接的IO操作,越小的空间被利用越充分
+    buffer-size: 1024
+    # 是否分配的直接内存(NIO直接分配的堆外内存)
+    direct-buffers: true
+
+
+# Spring配置
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+    encoding: utf-8
+  # 序列化
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  # 文件上传
+  servlet:
+    multipart:
+      max-file-size:  50MB
+      max-request-size:  30MB
+  # redis 配置
+  redis:
+    # 地址
+    host: localhost
+    # 端口，默认为6379
+    port: 6379
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+  # 数据源配置-使用Druid连接池管理-不使用SpringBoot(默认HikariCP)
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://121.36.157.210:5432/test?currentSchema=cool&timezone=GMT
+      username: test
+      password: G3BMUGDl
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 500
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+      filter:
+        stat:
+        # 慢SQL记录
+        log-slow-sql: true
+        slow-sql-millis: 1000
+        merge-sql: true
+      wall:
+        config:
+          multi-statement-allow: true
+
+
+# MyBatis Plus
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  typeAliasesPackage: com.cool.biz.**.entity
+  global-config:
+    # 不显示banner
+    banner: false
+    # 数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: INPUT
+      #驼峰下划线转换
+      table-underline: true
+  configuration:
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /cms/article/*,/system/datasource/save,/system/datasource/update,/devtool/dataset/*
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/quartz/*,/devtool/*,/activiti/*,/cms/*
+
+
+# 日志配置
+  #logging:
+    #level:
+    #com.cool: debug
+    #org.springframework: WARN
+    #org.spring.springboot.dao: debug

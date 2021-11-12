@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>model_cool</artifactId>
+        <groupId>com.cool</groupId>
+        <version>1.1.0</version>
+    </parent>
+
+    <artifactId>model_cool_main</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <description>模酷酷接口平台</description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <start-class>com.cool.model_cool_main.ModelCoolMainApplication</start-class>
+    </properties>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.cool</groupId>
+            <artifactId>model_cool_auth</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--爬虫那部分jar跟获取系统信息oshi冲突,发布时可以排除-->
+        <!--<dependency>
+            <groupId>com.cool</groupId>
+            <artifactId>model_biz_reptile</artifactId>
+            <version>${project.version}</version>
+        </dependency>-->
+
+        <!--业务逻辑包-->
+        <dependency>
+            <groupId>com.cool</groupId>
+            <artifactId>model_biz_model-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cool</groupId>
+            <artifactId>model_biz_system</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cool</groupId>
+            <artifactId>model_biz_monitor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>android-json</artifactId>
+                    <groupId>com.vaadin.external.google</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cool</groupId>
+            <artifactId>model_core_swagger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--采用undertow(特点高并发吞吐量)容器代替Tomcat-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+
+    <build>
+        <plugins>
+            <!--SpringBoot-Maven打包插件-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.0.RELEASE</version>
+                <configuration>
+                    <mainClass>${start-class}</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+
+
